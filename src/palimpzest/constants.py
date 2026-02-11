@@ -10,35 +10,33 @@ class Model(str, Enum):
     which requires invoking an LLM. It does NOT specify whether the model need be executed
     remotely or locally (if applicable).
     """
-    LLAMA3_2_3B = "together_ai/meta-llama/Llama-3.2-3B-Instruct-Turbo"
-    LLAMA3_1_8B = "together_ai/meta-llama/Meta-Llama-3.1-8B-Instruct-Turbo"
-    LLAMA3_3_70B = "together_ai/meta-llama/Llama-3.3-70B-Instruct-Turbo"
-    LLAMA3_2_90B_V = "together_ai/meta-llama/Llama-3.2-90B-Vision-Instruct-Turbo"
-    DEEPSEEK_V3 = "together_ai/deepseek-ai/DeepSeek-V3"
-    DEEPSEEK_R1_DISTILL_QWEN_1_5B = "together_ai/deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B"
-    GPT_4o = "openai/gpt-4o-2024-08-06"
-    GPT_4o_MINI = "openai/gpt-4o-mini-2024-07-18"
-    GPT_4_1 = "openai/gpt-4.1-2025-04-14"
-    GPT_4_1_MINI = "openai/gpt-4.1-mini-2025-04-14"
-    GPT_4_1_NANO = "openai/gpt-4.1-nano-2025-04-14"
-    GPT_5 = "openai/gpt-5-2025-08-07"
-    GPT_5_MINI = "openai/gpt-5-mini-2025-08-07"
-    GPT_5_NANO = "openai/gpt-5-nano-2025-08-07"
-    o4_MINI = "openai/o4-mini-2025-04-16"  # noqa: N815
-    # CLAUDE_3_5_SONNET = "anthropic/claude-3-5-sonnet-20241022"
-    CLAUDE_3_7_SONNET = "anthropic/claude-3-7-sonnet-20250219"
-    CLAUDE_3_5_HAIKU = "anthropic/claude-3-5-haiku-20241022"
-    GEMINI_2_0_FLASH = "vertex_ai/gemini-2.0-flash"
-    GEMINI_2_5_FLASH = "vertex_ai/gemini-2.5-flash"
-    GEMINI_2_5_PRO = "vertex_ai/gemini-2.5-pro"
-    GOOGLE_GEMINI_2_5_FLASH = "gemini/gemini-2.5-flash"
-    GOOGLE_GEMINI_2_5_FLASH_LITE = "gemini/gemini-2.5-flash-lite"
-    GOOGLE_GEMINI_2_5_PRO = "gemini/gemini-2.5-pro"
-    LLAMA_4_MAVERICK = "vertex_ai/meta/llama-4-maverick-17b-128e-instruct-maas"
-    GPT_4o_AUDIO_PREVIEW = "openai/gpt-4o-audio-preview"
-    GPT_4o_MINI_AUDIO_PREVIEW = "openai/gpt-4o-mini-audio-preview"
-    VLLM_QWEN_1_5_0_5B_CHAT = "hosted_vllm/qwen/Qwen1.5-0.5B-Chat"
-    # o1 = "o1-2024-12-17"
+    TINY_LLAMA3_1_1B = "TinyLlama/TinyLlama-1.1B-Chat-v1.0"
+    LLAMA3_1_8B = "meta-llama/Meta-Llama-3.1-8B-Instruct"
+    LLAMA3_3_70B = "meta-llama/Llama-3.3-70B-Instruct"
+    NVIDIA_LLAMA3_8B = "nvidia/llama-embed-nemotron-8b"
+    GPT_OSS_20B = "openai/gpt-oss-20b"
+    GPT_OSS_120B = "openai/gpt-oss-120b"
+    GPT_OSS_SAFEGUARD_20B = "openai/gpt-oss-safeguard-20b"
+    GEMMA_3_12B = "google/gemma-3-12b-it"
+    GEMMA_3_27B = "google/gemma-3-27b-it"
+    GEMMA_300M = "google/embeddinggemma-300m"
+    GOOGLE_BERT = "google-bert/bert-base-uncased"
+    NOMIC_EMBED_TEXT = "nomic-ai/nomic-embed-text-v1"
+    MIXTRAL_8_7B = "mistralai/Mixtral-8x7B-Instruct-v0.1"
+    SNOWFLAKE_ARTIC_EMBED = "Snowflake/snowflake-arctic-embed-l"
+    GRANITE_EMBED = "ibm-granite/granite-embedding-english-r2"
+    GRANITE_EMBED_RERANKER = "ibm-granite/granite-embedding-reranker-english-r2"
+    GRANITE_V3_2B = "ibm-granite/granite-vision-3.3-2b"
+    PIXTRAL_12B = "mistralai/Pixtral-12B-2409"
+    MIXTRAL_SMALL_24B = "mistralai/Mistral-Small-24B-Instruct-2501"
+    MIXTRAL_7B = "mistralai/Mistral-7B-Instruct-v0.2"
+    MIXTRAL_7B_V3 = "mistralai/Mistral-7B-Instruct-v0.3"
+    FLUX_2_KLEIN_9B = "black-forest-labs/FLUX.2-klein-9b-fp8"
+    FLUX_1_SCHNELL = "black-forest-labs/FLUX.1-schnell"
+    WHISPER_LARGE_V2 = "openai/whisper-large-v2"
+    PROMETHEUS_13B = "prometheus-eval/prometheus-13b-v1.0"
+    MMS_TTS = "facebook/mms-tts-eng"
+    LXT_2 = "Lightricks/LTX-2"
     TEXT_EMBEDDING_3_SMALL = "text-embedding-3-small"
     CLIP_VIT_B_32 = "clip-ViT-B-32"
 
@@ -596,7 +594,800 @@ VLLM_QWEN_1_5_0_5B_CHAT_MODEL_CARD = {
     "usd_per_output_token": 0.0 / 1e6,
     ##### Time #####
     "seconds_per_output_token": 0.1000, # TODO: fill-in with a better estimate
+### This file contains constants used by Palimpzest ###
+import os
+from enum import Enum
+
+
+# ENUMS
+class Model(str, Enum):
+    """
+    Model describes the underlying LLM which should be used to perform some operation
+    which requires invoking an LLM. It does NOT specify whether the model need be executed
+    remotely or locally (if applicable).
+    """
+    # TinyLlama models
+    TINY_LLAMA3_1_1B = "TinyLlama/TinyLlama-1.1B-Chat-v1.0"
+    
+    # Together AI / Meta Llama models
+    LLAMA3_1_8B = "together_ai/meta-llama/Meta-Llama-3.1-8B-Instruct"
+    LLAMA3_3_70B = "together_ai/meta-llama/Llama-3.3-70B-Instruct"
+    
+    # NVIDIA models
+    NVIDIA_LLAMA3_8B = "nvidia/llama-embed-nemotron-8b"
+    
+    # OpenAI GPT-OSS models
+    GPT_OSS_20B = "openai/gpt-oss-20b"
+    GPT_OSS_120B = "openai/gpt-oss-120b"
+    GPT_OSS_SAFEGUARD_20B = "openai/gpt-oss-safeguard-20b"
+    
+    # Google Gemma models
+    GEMMA_3_12B = "google/gemma-3-12b-it"
+    GEMMA_3_27B = "google/gemma-3-27b-it"
+    GEMMA_300M = "google/embeddinggemma-300m"
+    GOOGLE_BERT = "google-bert/bert-base-uncased"
+    
+    # Nomic models
+    NOMIC_EMBED_TEXT = "nomic-ai/nomic-embed-text-v1"
+    
+    # Mistral AI models
+    MIXTRAL_8_7B = "mistralai/Mixtral-8x7B-Instruct-v0.1"
+    MIXTRAL_SMALL_24B = "mistralai/Mistral-Small-24B-Instruct-2501"
+    MIXTRAL_7B = "mistralai/Mistral-7B-Instruct-v0.2"
+    MIXTRAL_7B_V3 = "mistralai/Mistral-7B-Instruct-v0.3"
+    PIXTRAL_12B = "mistralai/Pixtral-12B-2409"
+    
+    # Snowflake models
+    SNOWFLAKE_ARTIC_EMBED = "Snowflake/snowflake-arctic-embed-l"
+    
+    # IBM Granite models
+    GRANITE_EMBED = "ibm-granite/granite-embedding-english-r2"
+    GRANITE_EMBED_RERANKER = "ibm-granite/granite-embedding-reranker-english-r2"
+    GRANITE_V3_2B = "ibm-granite/granite-vision-3.3-2b"
+    
+    # Black Forest Labs (FLUX) models
+    FLUX_2_KLEIN_9B = "black-forest-labs/FLUX.2-klein-9b-fp8"
+    FLUX_1_SCHNELL = "black-forest-labs/FLUX.1-schnell"
+    
+    # OpenAI Whisper models
+    WHISPER_LARGE_V2 = "openai/whisper-large-v2"
+    
+    # Prometheus models
+    PROMETHEUS_13B = "prometheus-eval/prometheus-13b-v1.0"
+    
+    # Facebook/Meta models
+    MMS_TTS = "facebook/mms-tts-eng"
+    
+    # Lightricks models
+    LXT_2 = "Lightricks/LTX-2"
+    
+    # Legacy/OpenAI models (kept for compatibility)
+    GPT_4o = "openai/gpt-4o-2024-08-06"
+    GPT_4o_MINI = "openai/gpt-4o-mini-2024-07-18"
+    TEXT_EMBEDDING_3_SMALL = "text-embedding-3-small"
+    CLIP_VIT_B_32 = "clip-ViT-B-32"
+
+    def __repr__(self):
+        return f"{self.name}"
+
+    def is_llama_model(self):
+        return "llama" in self.value.lower() or "tinyllama" in self.value.lower()
+    
+    def is_tiny_llama_model(self):
+        return "tinyllama" in self.value.lower()
+    
+    def is_nvidia_model(self):
+        return "nvidia" in self.value.lower()
+    
+    def is_gpt_oss_model(self):
+        return "gpt-oss" in self.value.lower()
+    
+    def is_gemma_model(self):
+        return "gemma" in self.value.lower()
+    
+    def is_google_model(self):
+        return any(x in self.value.lower() for x in ["google", "google-bert", "gemma"])
+    
+    def is_nomic_model(self):
+        return "nomic" in self.value.lower()
+    
+    def is_mistral_model(self):
+        return "mistral" in self.value.lower()
+    
+    def is_mixtral_model(self):
+        return "mixtral" in self.value.lower()
+    
+    def is_pixtral_model(self):
+        return "pixtral" in self.value.lower()
+    
+    def is_snowflake_model(self):
+        return "snowflake" in self.value.lower()
+    
+    def is_granite_model(self):
+        return "granite" in self.value.lower()
+    
+    def is_ibm_model(self):
+        return "ibm" in self.value.lower()
+    
+    def is_flux_model(self):
+        return "flux" in self.value.lower()
+    
+    def is_black_forest_labs_model(self):
+        return "black-forest-labs" in self.value.lower()
+    
+    def is_whisper_model(self):
+        return "whisper" in self.value.lower()
+    
+    def is_prometheus_model(self):
+        return "prometheus" in self.value.lower()
+    
+    def is_facebook_model(self):
+        return "facebook" in self.value.lower()
+    
+    def is_meta_model(self):
+        return "facebook" in self.value.lower()
+    
+    def is_lightricks_model(self):
+        return "lightricks" in self.value.lower()
+    
+    def is_ltx_model(self):
+        return "ltx" in self.value.lower()
+    
+    def is_together_model(self):
+        return "together_ai" in self.value.lower()
+    
+    def is_clip_model(self):
+        return "clip" in self.value.lower()
+    
+    def is_text_embedding_model(self):
+        return any(x in self.value.lower() for x in ["text-embedding", "embed", "embedding", "bert", "nomic"])
+    
+    def is_openai_model(self):
+        return "openai" in self.value.lower() and not self.is_gpt_oss_model() or self.is_text_embedding_model()
+    
+    def is_legacy_openai_model(self):
+        """Original OpenAI GPT models (not GPT-OSS)"""
+        return self in [Model.GPT_4o, Model.GPT_4o_MINI, Model.TEXT_EMBEDDING_3_SMALL]
+    
+    def is_reasoning_model(self):
+        # GPT-OSS models are designed for reasoning/safety
+        reasoning_models = [
+            Model.GPT_OSS_20B, Model.GPT_OSS_120B, Model.GPT_OSS_SAFEGUARD_20B,
+            Model.PROMETHEUS_13B,
+        ]
+        return self in reasoning_models
+    
+    def is_text_model(self):
+        non_text_models = [
+            # Vision models
+            Model.PIXTRAL_12B, Model.GRANITE_V3_2B, Model.FLUX_2_KLEIN_9B, Model.FLUX_1_SCHNELL,
+            # Audio models
+            Model.WHISPER_LARGE_V2, Model.MMS_TTS,
+            # Video models
+            Model.LXT_2,
+            # Embedding-only models
+            Model.NVIDIA_LLAMA3_8B, Model.GEMMA_300M, Model.GOOGLE_BERT, 
+            Model.NOMIC_EMBED_TEXT, Model.SNOWFLAKE_ARTIC_EMBED,
+            Model.GRANITE_EMBED, Model.GRANITE_EMBED_RERANKER,
+            Model.CLIP_VIT_B_32, Model.TEXT_EMBEDDING_3_SMALL,
+        ]
+        return self not in non_text_models
+    
+    def is_vision_model(self):
+        return self in [
+            Model.PIXTRAL_12B, Model.GRANITE_V3_2B, Model.GEMMA_3_12B, Model.GEMMA_3_27B,
+        ]
+    
+    def is_image_generation_model(self):
+        return self in [Model.FLUX_2_KLEIN_9B, Model.FLUX_1_SCHNELL]
+    
+    def is_audio_model(self):
+        return self in [Model.WHISPER_LARGE_V2, Model.MMS_TTS]
+    
+    def is_speech_to_text_model(self):
+        return self in [Model.WHISPER_LARGE_V2]
+    
+    def is_text_to_speech_model(self):
+        return self in [Model.MMS_TTS]
+    
+    def is_video_model(self):
+        return self in [Model.LXT_2]
+    
+    def is_multimodal_model(self):
+        return self.is_vision_model() or self.is_audio_model() or self.is_video_model()
+    
+    def is_text_image_multimodal_model(self):
+        return self in [
+            Model.PIXTRAL_12B, Model.GRANITE_V3_2B, Model.GEMMA_3_12B, Model.GEMMA_3_27B,
+        ]
+    
+    def is_embedding_model(self):
+        return self in [
+            Model.NVIDIA_LLAMA3_8B, Model.GEMMA_300M, Model.GOOGLE_BERT,
+            Model.NOMIC_EMBED_TEXT, Model.SNOWFLAKE_ARTIC_EMBED,
+            Model.GRANITE_EMBED, Model.GRANITE_EMBED_RERANKER,
+            Model.CLIP_VIT_B_32, Model.TEXT_EMBEDDING_3_SMALL,
+        ]
+    
+    def is_reranker_model(self):
+        return self in [Model.GRANITE_EMBED_RERANKER]
+    
+    def is_safety_model(self):
+        return self in [Model.GPT_OSS_SAFEGUARD_20B]
+    
+    def is_moe_model(self):
+        """Mixture of Experts models"""
+        return "mixtral" in self.value.lower() and "8x" in self.value.lower()
+
+
+class PromptStrategy(str, Enum):
+    """
+    PromptStrategy describes the prompting technique to be used by a Generator when
+    performing some task with a specified Model.
+    """
+    # aggregation prompt strategies
+    AGG = "aggregation"
+    AGG_NO_REASONING = "aggregation-no-reasoning"
+    # filter prompt strategies
+    FILTER = "filter"
+    FILTER_NO_REASONING = "filter-no-reasoning"
+    FILTER_CRITIC = "filter-critic"
+    FILTER_REFINE = "filter-refine"
+    FILTER_MOA_PROPOSER = "filter-mixture-of-agents-proposer"
+    FILTER_MOA_AGG = "filter-mixture-of-agents-aggregator"
+    FILTER_SPLIT_PROPOSER = "filter-split-proposer"
+    FILTER_SPLIT_MERGER = "filter-split-merger"
+    # join prompt strategies
+    JOIN = "join"
+    JOIN_NO_REASONING = "join-no-reasoning"
+    # map prompt strategies
+    MAP = "map"
+    MAP_NO_REASONING = "map-no-reasoning"
+    MAP_CRITIC = "map-critic"
+    MAP_REFINE = "map-refine"
+    MAP_MOA_PROPOSER = "map-mixture-of-agents-proposer"
+    MAP_MOA_AGG = "map-mixture-of-agents-aggregator"
+    MAP_SPLIT_PROPOSER = "map-split-proposer"
+    MAP_SPLIT_MERGER = "map-split-merger"
+
+    def is_agg_prompt(self):
+        return "aggregation" in self.value
+
+    def is_filter_prompt(self):
+        return "filter" in self.value
+
+    def is_join_prompt(self):
+        return "join" in self.value
+
+    def is_map_prompt(self):
+        return "map" in self.value
+
+    def is_critic_prompt(self):
+        return "critic" in self.value
+
+    def is_refine_prompt(self):
+        return "refine" in self.value
+
+    def is_moa_proposer_prompt(self):
+        return "mixture-of-agents-proposer" in self.value
+
+    def is_moa_aggregator_prompt(self):
+        return "mixture-of-agents-aggregator" in self.value
+
+    def is_split_proposer_prompt(self):
+        return "split-proposer" in self.value
+
+    def is_split_merger_prompt(self):
+        return "split-merger" in self.value
+
+    def is_no_reasoning_prompt(self):
+        return "no-reasoning" in self.value
+
+
+class Modality(str, Enum):
+    TEXT = "text"
+    IMAGE = "image"
+    AUDIO = "audio"
+    VIDEO = "video"
+
+
+class AggFunc(str, Enum):
+    COUNT = "count"
+    AVERAGE = "average"
+    SUM = "sum"
+    MIN = "min"
+    MAX = "max"
+
+
+class Cardinality(str, Enum):
+    ONE_TO_ONE = "one-to-one"
+    ONE_TO_MANY = "one-to-many"
+
+    @classmethod
+    def _missing_(cls, value):
+        if value:
+            normalized_value = "".join([x for x in value if x.isalpha()]).lower()
+            for member in cls:
+                normalized_member = "".join([x for x in member if x.isalpha()]).lower()
+                if normalized_member == normalized_value:
+                    return member
+        return cls.ONE_TO_ONE
+
+
+class PickOutputStrategy(str, Enum):
+    CHAMPION = "champion"
+    ENSEMBLE = "ensemble"
+
+
+AUDIO_EXTENSIONS = [".wav", ".mp3", ".m4a", ".flac", ".ogg"]
+IMAGE_EXTENSIONS = [".jpg", ".jpeg", ".png", ".gif", ".bmp", ".tiff", ".webp"]
+PDF_EXTENSIONS = [".pdf"]
+XLS_EXTENSIONS = [".xls", ".xlsx"]
+HTML_EXTENSIONS = [".html", ".htm"]
+VIDEO_EXTENSIONS = [".mp4", ".avi", ".mov", ".mkv", ".webm"]
+
+# the number of seconds the parallel execution will sleep for while waiting for futures to complete
+PARALLEL_EXECUTION_SLEEP_INTERVAL_SECS = 0.3
+
+# default PDF parser
+DEFAULT_PDF_PROCESSOR = "pypdf"
+
+# character limit for various IDs
+MAX_ID_CHARS = 10
+
+# maximum number of rows to display in a table
+MAX_ROWS = 5
+
+# maximum number of rows to parse from an HTML
+MAX_HTML_ROWS = 10000
+
+
+def log_attempt_number(retry_state):
+    """return the result of the last call attempt"""
+    print(f"Retrying: {retry_state.attempt_number}...")
+
+
+# Palimpzest root directory
+PZ_DIR = os.path.join(os.path.expanduser("~"), ".palimpzest")
+
+# Assume 500 MB/sec for local SSD scan time
+LOCAL_SCAN_TIME_PER_KB = 1 / (float(500) * 1024)
+
+# Assume 30 GB/sec for sequential access of memory
+MEMORY_SCAN_TIME_PER_KB = 1 / (float(30) * 1024 * 1024)
+
+# Assume 1 KB per record
+NAIVE_BYTES_PER_RECORD = 1024
+
+# Rough conversion from # of characters --> # of tokens; assumes 1 token ~= 4 chars
+TOKENS_PER_CHARACTER = 0.25
+
+# Rough estimate of the number of tokens the context is allowed to take up for LLAMA3 models
+LLAMA_CONTEXT_TOKENS_LIMIT = 6000
+
+# a naive estimate for the input record size
+NAIVE_EST_SOURCE_RECORD_SIZE_IN_BYTES = 1_000_000
+
+# a naive estimate for filter selectivity
+NAIVE_EST_FILTER_SELECTIVITY = 0.5
+
+# a naive estimate for join selectivity
+NAIVE_EST_JOIN_SELECTIVITY = 0.5
+
+# a naive estimate for the number of input tokens processed per record
+NAIVE_EST_NUM_INPUT_TOKENS = 1000
+
+# a naive estimate for the number of output tokens processed per record
+NAIVE_EST_NUM_OUTPUT_TOKENS = 100
+
+# a naive estimate for the number of groups returned by a group by
+NAIVE_EST_NUM_GROUPS = 3
+
+# a naive estimate for the factor of increase (loosely termed "selectivity") for one-to-many cardinality operations
+NAIVE_EST_ONE_TO_MANY_SELECTIVITY = 2
+
+# a naive estimate of the time it takes to extract the latex for an equation from an image file using Skema
+NAIVE_IMAGE_TO_EQUATION_LATEX_TIME_PER_RECORD = 10.0
+
+# a naive estimate of the time it takes to extract the text from a PDF using a PDF processor
+NAIVE_PDF_PROCESSOR_TIME_PER_RECORD = 10.0
+
+# Whether or not to log LLM outputs
+LOG_LLM_OUTPUT = False
+
+
+#### MODEL PERFORMANCE & COST METRICS ####
+# NOTE: Many of these are estimates based on model size and architecture.
+# Update with actual benchmarks when available.
+
+# TinyLlama 1.1B
+TINY_LLAMA3_1_1B_MODEL_CARD = {
+    ##### Cost in USD #####
+    "usd_per_input_token": 0.02 / 1e6,  # Very small model, very cheap
+    "usd_per_output_token": 0.02 / 1e6,
+    ##### Time #####
+    "seconds_per_output_token": 0.0030,
     ##### Agg. Benchmark #####
+    "overall": 32.0,  # Estimated based on size
+}
+
+# Together AI / Meta models
+LLAMA3_1_8B_INSTRUCT_MODEL_CARD = {
+    ##### Cost in USD #####
+    "usd_per_input_token": 0.18 / 1e6,
+    "usd_per_output_token": 0.18 / 1e6,
+    ##### Time #####
+    "seconds_per_output_token": 0.0050,
+    ##### Agg. Benchmark #####
+    "overall": 44.25,
+}
+
+LLAMA3_3_70B_INSTRUCT_MODEL_CARD = {
+    ##### Cost in USD #####
+    "usd_per_input_token": 0.88 / 1e6,
+    "usd_per_output_token": 0.88 / 1e6,
+    ##### Time #####
+    "seconds_per_output_token": 0.0122,
+    ##### Agg. Benchmark #####
+    "overall": 69.9,
+}
+
+# NVIDIA models
+NVIDIA_LLAMA3_8B_MODEL_CARD = {
+    ##### Cost in USD #####
+    "usd_per_input_token": 0.10 / 1e6,  # Embedding model
+    "usd_per_output_token": None,
+    ##### Time #####
+    "seconds_per_output_token": 0.0040,
+    ##### Agg. Benchmark #####
+    "overall": 55.0,  # Estimated for embedding task
+}
+
+# OpenAI GPT-OSS models
+GPT_OSS_20B_MODEL_CARD = {
+    ##### Cost in USD #####
+    "usd_per_input_token": 0.50 / 1e6,
+    "usd_per_output_token": 1.50 / 1e6,
+    ##### Time #####
+    "seconds_per_output_token": 0.0080,
+    ##### Agg. Benchmark #####
+    "overall": 65.0,  # Estimated
+}
+
+GPT_OSS_120B_MODEL_CARD = {
+    ##### Cost in USD #####
+    "usd_per_input_token": 2.00 / 1e6,
+    "usd_per_output_token": 6.00 / 1e6,
+    ##### Time #####
+    "seconds_per_output_token": 0.0150,
+    ##### Agg. Benchmark #####
+    "overall": 78.0,  # Estimated - larger variant
+}
+
+GPT_OSS_SAFEGUARD_20B_MODEL_CARD = {
+    ##### Cost in USD #####
+    "usd_per_input_token": 0.50 / 1e6,
+    "usd_per_output_token": 1.50 / 1e6,
+    ##### Time #####
+    "seconds_per_output_token": 0.0080,
+    ##### Agg. Benchmark #####
+    "overall": 60.0,  # Safety-focused, may trade some performance
+}
+
+# Google Gemma models
+GEMMA_3_12B_MODEL_CARD = {
+    ##### Cost in USD #####
+    "usd_per_input_token": 0.25 / 1e6,
+    "usd_per_output_token": 0.50 / 1e6,
+    ##### Time #####
+    "seconds_per_output_token": 0.0060,
+    ##### Agg. Benchmark #####
+    "overall": 58.0,  # Estimated
+}
+
+GEMMA_3_27B_MODEL_CARD = {
+    ##### Cost in USD #####
+    "usd_per_input_token": 0.50 / 1e6,
+    "usd_per_output_token": 1.00 / 1e6,
+    ##### Time #####
+    "seconds_per_output_token": 0.0090,
+    ##### Agg. Benchmark #####
+    "overall": 68.0,  # Estimated
+}
+
+GEMMA_300M_MODEL_CARD = {
+    ##### Cost in USD #####
+    "usd_per_input_token": 0.01 / 1e6,
+    "usd_per_output_token": None,
+    ##### Time #####
+    "seconds_per_output_token": 0.0020,
+    ##### Agg. Benchmark #####
+    "overall": 45.0,  # Embedding model
+}
+
+GOOGLE_BERT_MODEL_CARD = {
+    ##### Cost in USD #####
+    "usd_per_input_token": 0.01 / 1e6,
+    "usd_per_output_token": None,
+    ##### Time #####
+    "seconds_per_output_token": 0.0015,
+    ##### Agg. Benchmark #####
+    "overall": 40.0,  # Classic embedding model
+}
+
+# Nomic models
+NOMIC_EMBED_TEXT_MODEL_CARD = {
+    ##### Cost in USD #####
+    "usd_per_input_token": 0.02 / 1e6,
+    "usd_per_output_token": None,
+    ##### Time #####
+    "seconds_per_output_token": 0.0030,
+    ##### Agg. Benchmark #####
+    "overall": 52.0,  # Estimated for long-context embedding
+}
+
+# Mistral AI models
+MIXTRAL_8_7B_MODEL_CARD = {
+    ##### Cost in USD #####
+    "usd_per_input_token": 0.60 / 1e6,  # MoE model, higher active params
+    "usd_per_output_token": 0.60 / 1e6,
+    ##### Time #####
+    "seconds_per_output_token": 0.0070,
+    ##### Agg. Benchmark #####
+    "overall": 58.4,  # Mixtral 8x7B known benchmark
+}
+
+MIXTRAL_SMALL_24B_MODEL_CARD = {
+    ##### Cost in USD #####
+    "usd_per_input_token": 0.40 / 1e6,
+    "usd_per_output_token": 0.80 / 1e6,
+    ##### Time #####
+    "seconds_per_output_token": 0.0080,
+    ##### Agg. Benchmark #####
+    "overall": 65.0,  # Estimated
+}
+
+MIXTRAL_7B_MODEL_CARD = {
+    ##### Cost in USD #####
+    "usd_per_input_token": 0.15 / 1e6,
+    "usd_per_output_token": 0.15 / 1e6,
+    ##### Time #####
+    "seconds_per_output_token": 0.0045,
+    ##### Agg. Benchmark #####
+    "overall": 50.0,  # Estimated
+}
+
+MIXTRAL_7B_V3_MODEL_CARD = {
+    ##### Cost in USD #####
+    "usd_per_input_token": 0.15 / 1e6,
+    "usd_per_output_token": 0.15 / 1e6,
+    ##### Time #####
+    "seconds_per_output_token": 0.0045,
+    ##### Agg. Benchmark #####
+    "overall": 52.0,  # Slightly improved v3
+}
+
+PIXTRAL_12B_MODEL_CARD = {
+    ##### Cost in USD #####
+    "usd_per_input_token": 0.30 / 1e6,
+    "usd_per_output_token": 0.60 / 1e6,
+    ##### Time #####
+    "seconds_per_output_token": 0.0100,
+    ##### Agg. Benchmark #####
+    "overall": 62.0,  # Vision model
+}
+
+# Snowflake models
+SNOWFLAKE_ARTIC_EMBED_MODEL_CARD = {
+    ##### Cost in USD #####
+    "usd_per_input_token": 0.05 / 1e6,
+    "usd_per_output_token": None,
+    ##### Time #####
+    "seconds_per_output_token": 0.0040,
+    ##### Agg. Benchmark #####
+    "overall": 55.0,  # Enterprise embedding model
+}
+
+# IBM Granite models
+GRANITE_EMBED_MODEL_CARD = {
+    ##### Cost in USD #####
+    "usd_per_input_token": 0.03 / 1e6,
+    "usd_per_output_token": None,
+    ##### Time #####
+    "seconds_per_output_token": 0.0035,
+    ##### Agg. Benchmark #####
+    "overall": 50.0,  # Enterprise embedding
+}
+
+GRANITE_EMBED_RERANKER_MODEL_CARD = {
+    ##### Cost in USD #####
+    "usd_per_input_token": 0.03 / 1e6,
+    "usd_per_output_token": None,
+    ##### Time #####
+    "seconds_per_output_token": 0.0040,
+    ##### Agg. Benchmark #####
+    "overall": 52.0,  # Reranker variant
+}
+
+GRANITE_V3_2B_MODEL_CARD = {
+    ##### Cost in USD #####
+    "usd_per_input_token": 0.08 / 1e6,
+    "usd_per_output_token": 0.16 / 1e6,
+    ##### Time #####
+    "seconds_per_output_token": 0.0050,
+    ##### Agg. Benchmark #####
+    "overall": 48.0,  # Small vision model
+}
+
+# Black Forest Labs (FLUX) models - image generation
+FLUX_2_KLEIN_9B_MODEL_CARD = {
+    ##### Cost in USD #####
+    "usd_per_input_token": 0.50 / 1e6,  # Per image generation
+    "usd_per_output_token": None,  # Image output
+    ##### Time #####
+    "seconds_per_output_token": 2.0000,  # Image generation time
+    ##### Agg. Benchmark #####
+    "overall": 75.0,  # Image quality metric
+}
+
+FLUX_1_SCHNELL_MODEL_CARD = {
+    ##### Cost in USD #####
+    "usd_per_input_token": 0.30 / 1e6,
+    "usd_per_output_token": None,
+    ##### Time #####
+    "seconds_per_output_token": 1.0000,  # Faster generation
+    ##### Agg. Benchmark #####
+    "overall": 70.0,
+}
+
+# OpenAI Whisper models
+WHISPER_LARGE_V2_MODEL_CARD = {
+    ##### Cost in USD #####
+    "usd_per_input_token": 0.006 / 1e6,  # Per audio second typically
+    "usd_per_output_token": None,
+    ##### Time #####
+    "seconds_per_output_token": 0.1000,  # Real-time factor
+    ##### Agg. Benchmark #####
+    "overall": 78.0,  # WER-based quality
+}
+
+# Prometheus models
+PROMETHEUS_13B_MODEL_CARD = {
+    ##### Cost in USD #####
+    "usd_per_input_token": 0.25 / 1e6,
+    "usd_per_output_token": 0.50 / 1e6,
+    ##### Time #####
+    "seconds_per_output_token": 0.0070,
+    ##### Agg. Benchmark #####
+    "overall": 55.0,  # Evaluation-focused model
+}
+
+# Facebook/Meta models
+MMS_TTS_MODEL_CARD = {
+    ##### Cost in USD #####
+    "usd_per_input_token": 0.005 / 1e6,  # Per character typically
+    "usd_per_output_token": None,
+    ##### Time #####
+    "seconds_per_output_token": 0.0500,
+    ##### Agg. Benchmark #####
+    "overall": 70.0,  # Speech quality
+}
+
+# Lightricks models
+LXT_2_MODEL_CARD = {
+    ##### Cost in USD #####
+    "usd_per_input_token": 1.00 / 1e6,  # Video generation
+    "usd_per_output_token": None,
+    ##### Time #####
+    "seconds_per_output_token": 10.0000,  # Video generation time
+    ##### Agg. Benchmark #####
+    "overall": 72.0,  # Video quality
+}
+
+# Legacy/OpenAI models
+GPT_4o_MODEL_CARD = {
+    ##### Cost in USD #####
+    "usd_per_input_token": 2.5 / 1e6,
+    "usd_per_output_token": 10.0 / 1e6,
+    ##### Time #####
+    "seconds_per_output_token": 0.0080,
+    ##### Agg. Benchmark #####
+    "overall": 74.1,
+}
+
+GPT_4o_MINI_MODEL_CARD = {
+    ##### Cost in USD #####
+    "usd_per_input_token": 0.15 / 1e6,
+    "usd_per_output_token": 0.6 / 1e6,
+    ##### Time #####
+    "seconds_per_output_token": 0.0159,
+    ##### Agg. Benchmark #####
+    "overall": 62.7,
+}
+
+TEXT_EMBEDDING_3_SMALL_MODEL_CARD = {
+    ##### Cost in USD #####
+    "usd_per_input_token": 0.02 / 1e6,
+    "usd_per_output_token": None,
+    ##### Time #####
+    "seconds_per_output_token": 0.0098,
+    ##### Agg. Benchmark #####
+    "overall": 63.09,
+}
+
+CLIP_VIT_B_32_MODEL_CARD = {
+    ##### Cost in USD #####
+    "usd_per_input_token": 0.00,
+    "usd_per_output_token": None,
+    ##### Time #####
+    "seconds_per_output_token": 0.0098,
+    ##### Agg. Benchmark #####
+    "overall": 63.3,
+}
+
+
+MODEL_CARDS = {
+    # TinyLlama
+    Model.TINY_LLAMA3_1_1B.value: TINY_LLAMA3_1_1B_MODEL_CARD,
+    
+    # Together AI / Meta
+    Model.LLAMA3_1_8B.value: LLAMA3_1_8B_INSTRUCT_MODEL_CARD,
+    Model.LLAMA3_3_70B.value: LLAMA3_3_70B_INSTRUCT_MODEL_CARD,
+    
+    # NVIDIA
+    Model.NVIDIA_LLAMA3_8B.value: NVIDIA_LLAMA3_8B_MODEL_CARD,
+    
+    # OpenAI GPT-OSS
+    Model.GPT_OSS_20B.value: GPT_OSS_20B_MODEL_CARD,
+    Model.GPT_OSS_120B.value: GPT_OSS_120B_MODEL_CARD,
+    Model.GPT_OSS_SAFEGUARD_20B.value: GPT_OSS_SAFEGUARD_20B_MODEL_CARD,
+    
+    # Google Gemma
+    Model.GEMMA_3_12B.value: GEMMA_3_12B_MODEL_CARD,
+    Model.GEMMA_3_27B.value: GEMMA_3_27B_MODEL_CARD,
+    Model.GEMMA_300M.value: GEMMA_300M_MODEL_CARD,
+    Model.GOOGLE_BERT.value: GOOGLE_BERT_MODEL_CARD,
+    
+    # Nomic
+    Model.NOMIC_EMBED_TEXT.value: NOMIC_EMBED_TEXT_MODEL_CARD,
+    
+    # Mistral AI
+    Model.MIXTRAL_8_7B.value: MIXTRAL_8_7B_MODEL_CARD,
+    Model.MIXTRAL_SMALL_24B.value: MIXTRAL_SMALL_24B_MODEL_CARD,
+    Model.MIXTRAL_7B.value: MIXTRAL_7B_MODEL_CARD,
+    Model.MIXTRAL_7B_V3.value: MIXTRAL_7B_V3_MODEL_CARD,
+    Model.PIXTRAL_12B.value: PIXTRAL_12B_MODEL_CARD,
+    
+    # Snowflake
+    Model.SNOWFLAKE_ARTIC_EMBED.value: SNOWFLAKE_ARTIC_EMBED_MODEL_CARD,
+    
+    # IBM Granite
+    Model.GRANITE_EMBED.value: GRANITE_EMBED_MODEL_CARD,
+    Model.GRANITE_EMBED_RERANKER.value: GRANITE_EMBED_RERANKER_MODEL_CARD,
+    Model.GRANITE_V3_2B.value: GRANITE_V3_2B_MODEL_CARD,
+    
+    # Black Forest Labs
+    Model.FLUX_2_KLEIN_9B.value: FLUX_2_KLEIN_9B_MODEL_CARD,
+    Model.FLUX_1_SCHNELL.value: FLUX_1_SCHNELL_MODEL_CARD,
+    
+    # OpenAI Whisper
+    Model.WHISPER_LARGE_V2.value: WHISPER_LARGE_V2_MODEL_CARD,
+    
+    # Prometheus
+    Model.PROMETHEUS_13B.value: PROMETHEUS_13B_MODEL_CARD,
+    
+    # Facebook/Meta
+    Model.MMS_TTS.value: MMS_TTS_MODEL_CARD,
+    
+    # Lightricks
+    Model.LXT_2.value: LXT_2_MODEL_CARD,
+    
+    # Legacy/OpenAI
+    Model.GPT_4o.value: GPT_4o_MODEL_CARD,
+    Model.GPT_4o_MINI.value: GPT_4o_MINI_MODEL_CARD,
+    Model.TEXT_EMBEDDING_3_SMALL.value: TEXT_EMBEDDING_3_SMALL_MODEL_CARD,
+    Model.CLIP_VIT_B_32.value: CLIP_VIT_B_32_MODEL_CARD,
+}    ##### Agg. Benchmark #####
     "overall": 30.0, # TODO: fill-in with a better estimate
 }
 
