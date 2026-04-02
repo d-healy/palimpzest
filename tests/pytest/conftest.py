@@ -253,4 +253,4 @@ def expected_plan(
         "2c-2f-maxquality@cost=1.0": two_converts_two_filters_max_quality_at_fixed_cost_expected_plan,
     }
 
-    return expected_plan_id_to_expected_plan[expected_plan_id]
+    return expected_plan_id_to_expected_plan[expected_plan_id] 
